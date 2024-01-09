@@ -1,6 +1,8 @@
 package org.example.database;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DDLService {
 
@@ -20,9 +22,10 @@ public class DDLService {
             + "  NAME     VARCHAR     NOT NULL,  "
             + "  EMAIL     VARCHAR     NOT NULL, "
             + "  PASSWORD     VARCHAR     NOT NULL, "
-            + "  LECTURE_LIST     INTEGER     FOREIGN KEY " + TABLE_LECTURE + "(" + "TITLE" + "), "
             + "  RECENT_LOGIN_DATE     TEXT     NOT NULL, "
-            + "  REG_DATE    TEXT     NOT NULL  )";
+            + "  REG_DATE    TEXT     NOT NULL,  "
+            + "  LECTURE_LIST    INTEGER,  "
+            + "  FOREIGN KEY(LECTURE_LIST)  REFERENCES " + TABLE_LECTURE + "(LECTURE_ID))";
 
 //    final String DROP_SQL = "DROP TABLE IF EXISTS "+ TABLE_NAME ;
 
