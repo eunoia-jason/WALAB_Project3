@@ -54,7 +54,7 @@ public class Main {
                     default -> System.out.println("다시 입력해 주세요.\n");
                 }
             } else {
-                if (loggedInUser.get("ID").equals("1")) {
+                if (Integer.parseInt(loggedInUser.get("ID").toString()) == 1) {
                     System.out.println("[1]강의 추가 [2]강의 목록 [3]강의 검색 [4]강의 수정 [5]강의 삭제 [6]회원 목록 [7]로그아웃");
                     int choice = in.nextInt();
                     in.nextLine();
