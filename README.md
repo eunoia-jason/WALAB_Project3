@@ -1,4 +1,4 @@
-# WALAB_Project3
+<img width="512" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/9b0dc895-4568-40f1-8cc2-779acc13ea96"># WALAB_Project3
 
 ## 프로젝트 개요
 - WALAB_Project3는 CRUD(Create, Read, Update, Delete) 기능과 sqlite3 DB를 통해 데이터를 관리하는 Java 프로젝트입니다.
@@ -27,13 +27,22 @@
 - sqlite-jdbc: Java에서 SQLite 데이터베이스와 상호 작용하기 위한 JDBC 드라이버입니다.
 - slf4j-simple: Simple Logging Facade for Java (SLF4J) 프레임워크에서 제공하는 간단한 로깅 구현체입니다.
 
-### 데이터 저장 포맷
-- JSON (JavaScript Object Notation) 포맷을 사용하여 사용자 데이터와 강의 정보를 파일에 저장하고 관리합니다.
+### DB Table
+- USER: 유저 정보를 저장하는 Table입니다.
+<img width="590" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/dec98eb7-cba5-4b25-8350-525027348614">
 
-- readData(lectureData.json, userData.json) 미리 저장하여 읽기 위한 강의, 유저 데이터입니다.
-<img width="467" alt="image" src="https://github.com/eunoia-jason/WALAB_Project2/assets/62330979/4b68d9af-de73-4eac-b432-7729d7a7d287">
+- LECTURE: 강의 정보를 저장하는 Table입니다.
+<img width="574" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/e6d5936e-acd9-4900-96c4-5faf5431133b">
 
-- writeData(lectureData.json, userData.json) -> 회원가입, 회원 탈퇴, 정보 수정 등 / CUD 발생 시 파일로 저장합니다.
-<img width="824" alt="image" src="https://github.com/eunoia-jason/WALAB_Project2/assets/62330979/dc23a9e5-8e23-4218-8a63-4e140fdc015b">
+- ENROLLMENT: 유저가 여러 강의를 수강 신청하였음을 저장하고 있는 다대다 관계 Table입니다.
+<img width="512" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/8dbbcedc-d6a8-416f-a49b-7317975ed94f">
 
 ## 스크린샷
+<img width="894" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/80a94c1d-f1b3-4148-82d2-f491b2028f74">
+<img width="375" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/07710fe8-8e6f-486c-ad97-1cc5c66b2750">
+<img width="716" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/3b7b9678-7c85-4bc9-b76d-2b5169087d60">
+<img width="712" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/0be27150-720e-40e9-b2ff-6e944cebf17c">
+<img width="713" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/a28fe227-9f14-49cb-9064-641523b1481f">
+<img width="583" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/6a697f4a-9b09-4f8f-89c2-de537e443e37">
+<img width="585" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/a29c1e5a-6cd0-493c-ae1f-74e334b3f3b0">
+
