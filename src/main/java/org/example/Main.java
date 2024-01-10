@@ -7,7 +7,6 @@ import org.example.database.DDLService;
 import org.example.database.DMLService;
 import org.example.database.DQLService;
 import org.example.database.SQLiteManager;
-import org.example.models.UserModel;
 import org.example.views.LectureView;
 import org.example.views.UserView;
 
@@ -24,7 +23,7 @@ public class Main {
         LectureController lectureController = new LectureController(enrollmentController);
         UserController userController = new UserController(enrollmentController);
         LectureView lectureView = new LectureView(in, lectureController);
-        UserView userView = new UserView(in, userController, enrollmentController);
+        UserView userView = new UserView(in, userController);
 
         DDLService DDL = new DDLService(conn);
         DMLService DML = new DMLService(conn);

@@ -1,17 +1,13 @@
 package org.example.views;
 
 import lombok.AllArgsConstructor;
-import org.example.controllers.EnrollmentController;
 import org.example.controllers.UserController;
 import org.example.database.DMLService;
 import org.example.database.DQLService;
-import org.example.models.LectureModel;
-import org.example.models.UserModel;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -19,7 +15,6 @@ import java.util.Scanner;
 public class UserView {
     private final Scanner in;
     private final UserController userController;
-    private final EnrollmentController enrollmentController;
 
     // 로그인
     public Map<String, Object> login(DQLService dql, DMLService dml) throws SQLException {

@@ -4,11 +4,9 @@ import lombok.AllArgsConstructor;
 import org.example.database.DMLService;
 import org.example.database.DQLService;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +22,7 @@ public class UserController {
 
     // 회원가입
     public void createUser(DMLService dml, String email, String password, String name) throws SQLException {
-        final HashMap<String, Object> dataMap = new HashMap<String, Object>();
+        final HashMap<String, Object> dataMap = new HashMap<>();
 
         dataMap.put("NAME", name);
         dataMap.put("EMAIL", email);

@@ -1,15 +1,11 @@
 package org.example.views;
 
 import lombok.AllArgsConstructor;
-import org.example.controllers.EnrollmentController;
 import org.example.controllers.LectureController;
 import org.example.database.DMLService;
 import org.example.database.DQLService;
-import org.example.models.LectureModel;
-import org.example.models.UserModel;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 @AllArgsConstructor
