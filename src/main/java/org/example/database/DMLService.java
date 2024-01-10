@@ -12,6 +12,7 @@ public class DMLService {
     final String INSERT_ENROLLMENT = "INSERT INTO ENROLLMENT ( USER_ID, LECTURE_ID) VALUES ( ?,? )";
     final String UPDATE_SQL = "UPDATE USER SET NAME = ?, EMAIL = ?, PASSWORD = ?, RECENT_LOGIN_DATE = ? WHERE ID = ?";
     final String UPDATE_LECTURE = "UPDATE LECTURE SET TITLE = ?, LECTURER = ?, CATEGORY = ?, COUNT = ? WHERE LECTURE_ID = ?";
+    final String UPDATE_COUNT = "UPDATE LECTURE SET COUNT = ? WHERE LECTURE_ID = ?";
     final String DELETE_SQL = "DELETE FROM USER WHERE ID = ? ";
     final String DELETE_LECTURE = "DELETE FROM LECTURE WHERE LECTURE_ID = ? ";
 
@@ -220,7 +221,7 @@ public class DMLService {
     }
 
     // 데이터 수정 함수
-    public int updateLecture(Map<String, Object> updateMap) throws SQLException {
+    public int updateLecture(Map<String, Object> updateMap, boolean update) throws SQLException {
 
         //   - 수정 결과 변수
         int updated = 0;
@@ -244,8 +245,10 @@ public class DMLService {
 
             // 트랜잭션 COMMIT
             conn.commit();
-            System.out.println("강의 정보 수정 완료.");
-            System.out.println("====================\n");
+            if (update) {
+                System.out.println("강의 정보 수정 완료.");
+                System.out.println("====================\n");
+            }
         } catch (SQLException e) {
             // 오류처리
             System.out.println(e.getMessage() + "\n");

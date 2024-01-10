@@ -60,7 +60,7 @@ public class LectureController {
         if (!lecturer.isEmpty()) dataMap.put("LECTURER", lecturer);
         if (!category.isEmpty()) dataMap.put("CATEGORY" , category);
 
-        dml.updateLecture(dataMap);
+        dml.updateLecture(dataMap, true);
     }
 
     // parameter의 index의 강의 삭제
