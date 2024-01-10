@@ -18,7 +18,7 @@ public class EnrollmentController {
         dml.insertEnrollment(id, lectureID, counter, false);
     }
 
-    public void getLectureList(DQLService dql, int id) {
+    public void getLectureList(DQLService dql, int id) throws SQLException {
         dql.printMapListLecture(dql.selectAllEnrollment(id));
     }
 

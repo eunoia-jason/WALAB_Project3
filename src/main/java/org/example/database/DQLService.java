@@ -23,11 +23,14 @@ public class DQLService {
     }
 
     // 데이터 조회 함수
-    public List<Map<String, Object>> selectAll(){
+    public List<Map<String, Object>> selectAll() throws SQLException {
+        if (this.conn == null) {
+            this.conn = SQLiteManager.getConnection();
+        }
 
         //   - 조회 결과 변수
-        final Set<String> columnNames = new HashSet<String>();
-        final List<Map<String, Object>> selected = new ArrayList<Map<String, Object>>();
+        final Set<String> columnNames = new HashSet<>();
+        final List<Map<String, Object>> selected = new ArrayList<>();
 
         try {
             // PreparedStatement 객체 생성
@@ -46,7 +49,7 @@ public class DQLService {
             Map<String, Object> resultMap = null;
 
             while(rs.next()) {
-                resultMap = new HashMap<String, Object>();
+                resultMap = new HashMap<>();
 
                 for(String column : columnNames) {
                     resultMap.put(column, rs.getObject(column));
@@ -77,7 +80,10 @@ public class DQLService {
         return selected;
     }
 
-    public List<Map<String, Object>> selectAllLecture(){
+    public List<Map<String, Object>> selectAllLecture() throws SQLException {
+        if (this.conn == null) {
+            this.conn = SQLiteManager.getConnection();
+        }
 
         //   - 조회 결과 변수
         final Set<String> columnNames = new HashSet<String>();
@@ -132,7 +138,10 @@ public class DQLService {
     }
 
     // 데이터 조회 함수
-    public List<Map<String, Object>> selectAllEnrollment(int id){
+    public List<Map<String, Object>> selectAllEnrollment(int id) throws SQLException {
+        if (this.conn == null) {
+            this.conn = SQLiteManager.getConnection();
+        }
 
         //   - 조회 결과 변수
         final Set<String> columnNames = new HashSet<String>();
@@ -189,7 +198,10 @@ public class DQLService {
         return selected;
     }
 
-    public Map<String, Object> selectID(int id){
+    public Map<String, Object> selectID(int id) throws SQLException {
+        if (this.conn == null) {
+            this.conn = SQLiteManager.getConnection();
+        }
 
         //   - 조회 결과 변수
         final Set<String> columnNames = new HashSet<String>();
@@ -246,7 +258,10 @@ public class DQLService {
         return selected.get(0);
     }
 
-    public Map<String, Object> selectLectureID(int id){
+    public Map<String, Object> selectLectureID(int id) throws SQLException {
+        if (this.conn == null) {
+            this.conn = SQLiteManager.getConnection();
+        }
 
         //   - 조회 결과 변수
         final Set<String> columnNames = new HashSet<String>();
@@ -304,11 +319,14 @@ public class DQLService {
     }
 
     // 데이터 조회 함수
-    public Map<String, Object> selectByName(String email, String password){
+    public Map<String, Object> selectByName(String email, String password) throws SQLException {
+        if (this.conn == null) {
+            this.conn = SQLiteManager.getConnection();
+        }
 
         //   - 조회 결과 변수
-        final Set<String> columnNames = new HashSet<String>();
-        final List<Map<String, Object>> selected = new ArrayList<Map<String, Object>>();
+        final Set<String> columnNames = new HashSet<>();
+        final List<Map<String, Object>> selected = new ArrayList<>();
 
         try {
             // PreparedStatement 객체 생성
@@ -363,7 +381,10 @@ public class DQLService {
     }
 
     // 데이터 조회 함수
-    public List<Map<String, Object>> selectByNameLecture(String keyword){
+    public List<Map<String, Object>> selectByNameLecture(String keyword) throws SQLException {
+        if (this.conn == null) {
+            this.conn = SQLiteManager.getConnection();
+        }
 
         //   - 조회 결과 변수
         final Set<String> columnNames = new HashSet<String>();
@@ -422,7 +443,10 @@ public class DQLService {
     }
 
     // 데이터 조회 함수
-    public List<Map<String, Object>> selectByNameEnrollment(int id, String keyword){
+    public List<Map<String, Object>> selectByNameEnrollment(int id, String keyword) throws SQLException {
+        if (this.conn == null) {
+            this.conn = SQLiteManager.getConnection();
+        }
 
         //   - 조회 결과 변수
         final Set<String> columnNames = new HashSet<String>();
@@ -483,7 +507,6 @@ public class DQLService {
 
     // 조회 결과 출력 함수
     public void printMapList(List<Map<String, Object>> mapList) {
-
         if(mapList.isEmpty()) {
             System.out.println("조회된 데이터가 없습니다.\n");
             return;

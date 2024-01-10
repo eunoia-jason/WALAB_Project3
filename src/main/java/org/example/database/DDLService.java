@@ -44,6 +44,9 @@ public class DDLService {
 
     // SQL 실행 함수
     public boolean executeSQL(final String SQL) throws SQLException {
+        if (this.conn == null) {
+            this.conn = SQLiteManager.getConnection();
+        }
 
         Statement stmt = null;
         //   - 결과 변수

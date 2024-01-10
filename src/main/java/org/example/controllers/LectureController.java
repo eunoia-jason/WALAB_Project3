@@ -15,14 +15,14 @@ import java.util.Map;
 public class LectureController {
     private final EnrollmentController enrollmentController;
 
-    public void readData(DQLService dql) {
+    public void readData(DQLService dql) throws SQLException {
         List<Map<String, Object>> resultList = dql.selectAllLecture();
         dql.printMapListLecture(resultList);
     }
 
     // 입력받은 정보 강의 생성
     public void createLecture(DMLService dml, String title, String lecturer, String category) throws SQLException {
-        final HashMap<String, Object> dataMap = new HashMap<String, Object>();
+        final HashMap<String, Object> dataMap = new HashMap<>();
 
         dataMap.put("TITLE", title);
         dataMap.put("LECTURER", lecturer);
@@ -53,7 +53,7 @@ public class LectureController {
     }
 
     // parameter의 강의명 or 강사가 포함된 강의 검색
-    public void searchLectures(DQLService dql, String keyword) {
+    public void searchLectures(DQLService dql, String keyword) throws SQLException {
         List<Map<String, Object>> resultList = dql.selectByNameLecture(keyword);
         dql.printMapListLecture(resultList);
     }

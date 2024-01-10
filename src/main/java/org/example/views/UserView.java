@@ -63,7 +63,7 @@ public class UserView {
     }
 
     // 전체 유저 정보 로드
-    public void listAllUsers(DQLService dql) {
+    public void listAllUsers(DQLService dql) throws SQLException {
         userController.readData(dql);
     }
 
@@ -82,7 +82,7 @@ public class UserView {
     }
 
     // 현재 로그인된 유저의 수강 정보 가져오기
-    public void getLectureList(DQLService dql, int id) {
+    public void getLectureList(DQLService dql, int id) throws SQLException {
         userController.getLectureList(dql, id);
     }
 
@@ -96,14 +96,14 @@ public class UserView {
     }
 
     // 수강 중인 강의 검색
-    public void searchLecture(DQLService dql, int id) {
+    public void searchLecture(DQLService dql, int id) throws SQLException {
         System.out.print("검색할 강의명 or 강사를 입력해 주세요: ");
         String keyword = in.nextLine();
 
         userController.searchLectures(dql, id, keyword);
     }
 
-    public void userInfo(DQLService dql, int id) {
+    public void userInfo(DQLService dql, int id) throws SQLException {
         userController.userInfo(dql, id);
     }
 }

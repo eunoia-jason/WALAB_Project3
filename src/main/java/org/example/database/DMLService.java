@@ -25,6 +25,9 @@ public class DMLService {
 
     // 데이터 삽입 함수
     public int insertPerson(HashMap<String, Object> dataMap) throws SQLException {
+        if (this.conn == null) {
+            this.conn = SQLiteManager.getConnection();
+        }
 
         int inserted = 0;
 
@@ -75,6 +78,9 @@ public class DMLService {
 
     // 데이터 삽입 함수
     public int insertLecture(HashMap<String, Object> dataMap) throws SQLException {
+        if (this.conn == null) {
+            this.conn = SQLiteManager.getConnection();
+        }
 
         int inserted = 0;
 
@@ -124,6 +130,9 @@ public class DMLService {
 
     // 데이터 삽입 함수
     public int insertEnrollment(int id, int input, Map<String, Object> updateMap, boolean update) throws SQLException {
+        if (this.conn == null) {
+            this.conn = SQLiteManager.getConnection();
+        }
 
         int inserted = 0;
 
@@ -172,6 +181,9 @@ public class DMLService {
 
     // 데이터 수정 함수
     public int updatePerson(Map<String, Object> updateMap, boolean update) throws SQLException {
+        if (this.conn == null) {
+            this.conn = SQLiteManager.getConnection();
+        }
 
         //   - 수정 결과 변수
         int updated = 0;
@@ -223,6 +235,9 @@ public class DMLService {
 
     // 데이터 수정 함수
     public int updateLecture(Map<String, Object> updateMap, boolean update) throws SQLException {
+        if (this.conn == null) {
+            this.conn = SQLiteManager.getConnection();
+        }
 
         //   - 수정 결과 변수
         int updated = 0;
@@ -274,6 +289,9 @@ public class DMLService {
 
     // 데이터 삭제 함수
     public int deletePerson(int num) throws SQLException {
+        if (this.conn == null) {
+            this.conn = SQLiteManager.getConnection();
+        }
 
         //   - 삭제 결과 변수
         int deleted = 0;
@@ -319,6 +337,9 @@ public class DMLService {
 
     // 데이터 삭제 함수
     public int deleteLecture(int num) throws SQLException {
+        if (this.conn == null) {
+            this.conn = SQLiteManager.getConnection();
+        }
 
         //   - 삭제 결과 변수
         int deleted = 0;
@@ -364,6 +385,9 @@ public class DMLService {
 
     // 데이터 삭제 함수
     public int deleteEnrollment(int id, int input, Map<String, Object> updateMap, boolean update, boolean cancel) throws SQLException {
+        if (this.conn == null) {
+            this.conn = SQLiteManager.getConnection();
+        }
 
         //   - 삭제 결과 변수
         int deleted = 0;

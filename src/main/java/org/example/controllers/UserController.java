@@ -15,7 +15,7 @@ import java.util.Map;
 public class UserController {
     private final EnrollmentController enrollmentController;
 
-    public void readData(DQLService dql) {
+    public void readData(DQLService dql) throws SQLException {
         List<Map<String, Object>> resultList = dql.selectAll();
         dql.printMapList(resultList);
     }
@@ -55,7 +55,7 @@ public class UserController {
     }
 
     // 유저 찾기
-    public Map<String, Object> findUser(DQLService dql, String email, String password) {
+    public Map<String, Object> findUser(DQLService dql, String email, String password) throws SQLException {
         return dql.selectByName(email, password);
     }
 
@@ -71,16 +71,16 @@ public class UserController {
     }
 
     // 수강 중인 강의 검색
-    public void searchLectures(DQLService dql, int id, String keyword) {
+    public void searchLectures(DQLService dql, int id, String keyword) throws SQLException {
         dql.printMapListLecture(dql.selectByNameEnrollment(id, keyword));
     }
 
-    public void userInfo(DQLService dql, int id) {
+    public void userInfo(DQLService dql, int id) throws SQLException {
         dql.printUserInfo(dql.selectID(id));
     }
 
     // 현재 로그인된 유저의 수강 정보 가져오기
-    public void getLectureList(DQLService dql, int id) {
+    public void getLectureList(DQLService dql, int id) throws SQLException {
         enrollmentController.getLectureList(dql, id);
     }
 

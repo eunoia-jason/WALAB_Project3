@@ -26,7 +26,7 @@ public class LectureView {
     }
 
     // 전체 강의 읽어오기
-    public void listAllLectures(DQLService dql) {
+    public void listAllLectures(DQLService dql) throws SQLException {
         lectureController.readData(dql);
     }
 
@@ -58,7 +58,7 @@ public class LectureView {
     }
 
     // 강의명으로 검색
-    public void searchLectures(DQLService dql) {
+    public void searchLectures(DQLService dql) throws SQLException {
         System.out.print("검색할 강의명 or 강사를 입력해 주세요: ");
         String keyword = in.nextLine();
 
