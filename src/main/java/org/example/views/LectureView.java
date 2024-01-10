@@ -87,6 +87,6 @@ public class LectureView {
         System.out.print("강의의 번호를 입력하세요: ");
         int input = in.nextInt();
 //
-        enrollmentController.register(dml, id, input);
+        enrollmentController.register(dql, dml, id, input);
     }
 }
