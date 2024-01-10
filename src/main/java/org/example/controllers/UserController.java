@@ -1,15 +1,28 @@
 package org.example.controllers;
 
 import lombok.Getter;
+import org.example.database.DMLService;
+import org.example.database.DQLService;
 import org.example.models.LectureModel;
 import org.example.models.UserModel;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 public class UserController {
     private final List<UserModel> users = new ArrayList<>();
+
+    public void readData(DQLService dql) {
+        List<Map<String, Object>> resultList = dql.selectAll();
+        dql.printMapList(resultList);
+    }
 
     // 이메일 중복 체크
     public boolean isEmailExist(String email) {
@@ -17,14 +30,20 @@ public class UserController {
     }
 
     // 회원가입
-    public void createUser(Long id, String email, String password, String name) {
-        if (isEmailExist(email)) {
-            throw new IllegalStateException("이미 존재하는 이메일입니다.");
-        }
+    public void createUser(DMLService dml, String email, String password, String name) throws SQLException {
+        final HashMap<String, Object> dataMap = new HashMap<String, Object>();
 
-        UserModel newUser = new UserModel(id++, email, password, name);
+        dataMap.put("NAME", name);
+        dataMap.put("EMAIL", email);
+        dataMap.put("PASSWORD" , password);
 
-        users.add(newUser);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String regDate = LocalDateTime.now().format(formatter);
+
+        dataMap.put("RECENT_LOGIN_DATE" , regDate);
+        dataMap.put("REG_DATE" , regDate);
+
+        dml.insertPerson(dataMap);
     }
 
     // 유저 삭제
@@ -39,11 +58,8 @@ public class UserController {
     }
 
     // 유저 찾기
-    public UserModel findUser(String email, String password) {
-        return users.stream()
-                .filter(user -> user.getEmail().equals(email) && user.getPassword().equals(password))
-                .findFirst()
-                .orElse(null);
+    public Map<String, Object> findUser(DQLService dql, String email, String password) {
+        return dql.selectByName(email, password);
     }
 
     // 유저 정보 수정

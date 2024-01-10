@@ -1,13 +1,20 @@
 package org.example.controllers;
 
+import org.example.database.DQLService;
 import org.example.models.LectureModel;
 import org.example.models.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class LectureController {
     private final ArrayList<LectureModel> lectures = new ArrayList<>();
+
+    public void readData(DQLService dql) {
+        List<Map<String, Object>> resultList = dql.selectAllLecture();
+        dql.printMapListLecture(resultList);
+    }
 
     // 강의명 중복 확인
     public boolean isLectureExist(String title) {
@@ -43,8 +50,9 @@ public class LectureController {
     }
 
     // parameter의 강의명 or 강사가 포함된 강의 검색
-    public List<LectureModel> searchLectures(String keyword) {
-        return lectures.stream().filter(lecture -> lecture.getTitle().contains(keyword) || lecture.getLecturer().contains(keyword)).toList();
+    public void searchLectures(DQLService dql, String keyword) {
+        List<Map<String, Object>> resultList = dql.selectByNameLecture(keyword);
+        dql.printMapListLecture(resultList);
     }
 
     // 유저 수강 신청

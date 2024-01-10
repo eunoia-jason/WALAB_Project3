@@ -1,12 +1,16 @@
 package org.example.views;
 
 import org.example.controllers.UserController;
+import org.example.database.DMLService;
+import org.example.database.DQLService;
 import org.example.models.LectureModel;
 import org.example.models.UserModel;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class UserView {
@@ -21,17 +25,18 @@ public class UserView {
     }
 
     // 로그인
-    public UserModel login() {
+    public Map<String, Object> login(DQLService dql, DMLService dml) throws SQLException {
         System.out.println("======= 로그인 =======");
         System.out.print("이메일: ");
         String email = in.nextLine();
         System.out.print("비밀번호: ");
         String password = in.nextLine();
 
-        UserModel user = userController.findUser(email, password);
+        Map<String, Object> user = userController.findUser(dql, email, password);
         if (user != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            user.setRecentLoginDate(LocalDateTime.now().format(formatter));
+            user.put("RECENT_LOGIN_DATE", LocalDateTime.now().format(formatter));
+            dml.updatePerson(user);
             System.out.println("로그인 성공!");
             System.out.println("====================");
             return user;
@@ -43,22 +48,15 @@ public class UserView {
     }
 
     // 회원가입
-    public void createUser() {
+    public void createUser(DMLService dml) throws SQLException {
         System.out.println("======= 회원 가입 =======");
         System.out.print("이메일: ");
         String email = in.nextLine();
-        while (userController.isEmailExist(email)) {
-            System.out.println("이미 존재하는 이메일입니다. 다른 이메일을 입력해주세요.");
-            System.out.print("이메일: ");
-            email = in.nextLine();
-        }
-
         System.out.print("비밀번호: ");
         String password = in.nextLine();
         System.out.print("이름: ");
         String name = in.nextLine();
-
-        userController.createUser(id++, email, password, name);
+        userController.createUser(dml, email, password, name);
         System.out.println("회원가입 완료.");
         System.out.println("====================");
     }

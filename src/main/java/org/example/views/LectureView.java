@@ -1,6 +1,7 @@
 package org.example.views;
 
 import org.example.controllers.LectureController;
+import org.example.database.DQLService;
 import org.example.models.LectureModel;
 import org.example.models.UserModel;
 
@@ -38,19 +39,13 @@ public class LectureView {
     }
 
     // 전체 강의 읽어오기
-    public void listAllLectures() {
-        ArrayList<LectureModel> lectures = lectureController.listAllLectures();
-
-        System.out.println("======= 강의 목록 =======");
-        for (int i=0; i<lectures.size(); i++) {
-            System.out.println((i+1) + lectures.get(i).toString());
-        }
-        System.out.println("=======================\n");
+    public void listAllLectures(DQLService dql) {
+        lectureController.readData(dql);
     }
 
     // 강의 정보 업데이트
     public void updateLecture() {
-        listAllLectures();
+//        listAllLectures();
         System.out.print("수정할 강의 번호를 선택해 주세요: ");
         int id = in.nextInt();
         in.nextLine();
@@ -74,7 +69,7 @@ public class LectureView {
 
     // 강의 삭제
     public void deleteLecture() {
-        listAllLectures();
+//        listAllLectures();
         System.out.print("삭제할 강의 번호를 선택해 주세요: ");
         int id = in.nextInt();
         in.nextLine();
@@ -90,17 +85,11 @@ public class LectureView {
     }
 
     // 강의명으로 검색
-    public void searchLectures() {
+    public void searchLectures(DQLService dql) {
         System.out.print("검색할 강의명 or 강사를 입력해 주세요: ");
         String keyword = in.nextLine();
 
-        List<LectureModel> lectures = lectureController.searchLectures(keyword);
-
-        System.out.println("======= 강의 목록 =======");
-        for (int i=0; i<lectures.size(); i++) {
-            System.out.println((i+1) + lectures.get(i).toString());
-        }
-        System.out.println("=======================\n");
+        lectureController.searchLectures(dql, keyword);
     }
 
     // 현재 로그인된 유저 수강 신청
