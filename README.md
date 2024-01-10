@@ -1,4 +1,4 @@
-<img width="512" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/9b0dc895-4568-40f1-8cc2-779acc13ea96"># WALAB_Project3
+# WALAB_Project3
 
 ## 프로젝트 개요
 - WALAB_Project3는 CRUD(Create, Read, Update, Delete) 기능과 sqlite3 DB를 통해 데이터를 관리하는 Java 프로젝트입니다.
