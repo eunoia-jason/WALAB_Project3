@@ -14,14 +14,12 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class UserView {
-    private Long id;
     private final Scanner in;
     private final UserController userController;
 
     public UserView(Scanner in, UserController userController) {
         this.in = in;
         this.userController = userController;
-        this.id = (long) (userController.getUsers().size());
     }
 
     // 로그인
@@ -75,11 +73,8 @@ public class UserView {
     }
 
     // 전체 유저 정보 로드
-    public void listAllUsers() {
-        System.out.println("======= 회원 목록 =======");
-        userController.listAllUsers().forEach(user ->
-                System.out.println(user.getId() + ". " + "이메일: " + user.getEmail() + "  이름: " + user.getName() + "  가입일: " + user.getRegDate() + "  최근 로그인: " + user.getRecentLoginDate()));
-        System.out.println("=======================");
+    public void listAllUsers(DQLService dql) {
+        userController.listAllUsers(dql);
     }
 
     // 회원 정보 수정

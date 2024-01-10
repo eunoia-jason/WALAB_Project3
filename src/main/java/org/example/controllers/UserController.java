@@ -53,8 +53,8 @@ public class UserController {
     }
 
     // 유저 목록 조회
-    public List<UserModel> listAllUsers() {
-        return new ArrayList<>(users);
+    public void listAllUsers(DQLService dql) {
+        dql.printMapList(dql.selectAll());
     }
 
     // 유저 찾기

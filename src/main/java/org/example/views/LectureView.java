@@ -1,12 +1,13 @@
 package org.example.views;
 
 import org.example.controllers.LectureController;
+import org.example.database.DMLService;
 import org.example.database.DQLService;
 import org.example.models.LectureModel;
 import org.example.models.UserModel;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class LectureView {
@@ -19,22 +20,15 @@ public class LectureView {
     }
 
     // 강의 생성
-    public void createLecture() {
+    public void createLecture(DMLService dml) throws SQLException {
         System.out.println("======= 강의 등록 =======");
         System.out.print("강의 제목: ");
         String title = in.nextLine();
-        while (lectureController.isLectureExist(title)) {
-            System.out.println("이미 등록된 강의입니다. 다시 입력해 주세요!");
-            System.out.print("강의 제목: ");
-            title = in.nextLine();
-        }
-
         System.out.print("강사: ");
         String lecturer = in.nextLine();
         System.out.print("카테고리: ");
         String category = in.nextLine();
-
-        lectureController.createLecture(title, lecturer, category);
+        lectureController.createLecture(dml, title, lecturer, category);
         System.out.println("======= 강의 등록 완료 =======\n");
     }
 
@@ -44,17 +38,11 @@ public class LectureView {
     }
 
     // 강의 정보 업데이트
-    public void updateLecture() {
-//        listAllLectures();
+    public void updateLecture(DQLService dql, DMLService dml) throws SQLException {
+        dql.printMapListLecture(dql.selectAllLecture());
         System.out.print("수정할 강의 번호를 선택해 주세요: ");
         int id = in.nextInt();
         in.nextLine();
-        while (lectureController.isIndexExist(id)) {
-            System.out.println("잘못된 번호입니다. 다시 입력해 주세요!");
-            System.out.print("번호: ");
-            id = in.nextInt();
-            in.nextLine();
-        }
 
         System.out.print("새 제목: ");
         String newTitle = in.nextLine();
@@ -63,24 +51,18 @@ public class LectureView {
         System.out.print("새 카테고리: ");
         String newCategory = in.nextLine();
 
-        lectureController.updateLecture(id, newTitle, newLecturer, newCategory);
+        lectureController.updateLecture(dql, dml, id, newTitle, newLecturer, newCategory);
         System.out.println("======= 수정 완료 =======\n");
     }
 
     // 강의 삭제
-    public void deleteLecture() {
-//        listAllLectures();
+    public void deleteLecture(DQLService dql, DMLService dml) throws SQLException {
+        dql.printMapListLecture(dql.selectAllLecture());
         System.out.print("삭제할 강의 번호를 선택해 주세요: ");
         int id = in.nextInt();
         in.nextLine();
-        while (lectureController.isIndexExist(id)) {
-            System.out.println("잘못된 번호입니다. 다시 입력해 주세요!");
-            System.out.print("번호: ");
-            id = in.nextInt();
-            in.nextLine();
-        }
 
-        lectureController.deleteLecture(id);
+        lectureController.deleteLecture(dml, id);
         System.out.println("======= 삭제 완료 =======\n");
     }
 

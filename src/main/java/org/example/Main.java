@@ -58,12 +58,12 @@ public class Main {
                     in.nextLine();
 
                     switch (choice) {
-                        case 1 -> lectureView.createLecture();
+                        case 1 -> lectureView.createLecture(DML);
                         case 2 -> lectureView.listAllLectures(DQL);
                         case 3 -> lectureView.searchLectures(DQL);
-                        case 4 -> lectureView.updateLecture();
-                        case 5 -> lectureView.deleteLecture();
-                        case 6 -> userView.listAllUsers();
+                        case 4 -> lectureView.updateLecture(DQL, DML);
+                        case 5 -> lectureView.deleteLecture(DQL, DML);
+                        case 6 -> userView.listAllUsers(DQL);
                         case 7 -> {
                             loggedInUser = null;
                             System.out.println("===== 로그아웃 되었습니다 =====");
