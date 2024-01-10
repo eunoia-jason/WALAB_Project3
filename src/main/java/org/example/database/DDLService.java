@@ -9,6 +9,8 @@ public class DDLService {
     final String TABLE_NAME = "USER";
     final String TABLE_LECTURE = "LECTURE";
 
+    final String TABLE_ENROLLMENT = "ENROLLMENT";
+
     final String CREATE_LECTURE = "CREATE TABLE IF NOT EXISTS " + TABLE_LECTURE + " ( "
             + "  LECTURE_ID  INTEGER  PRIMARY KEY  AUTOINCREMENT, "
             + "  TITLE  VARCHAR  NOT NULL,  "
@@ -23,9 +25,14 @@ public class DDLService {
             + "  EMAIL     VARCHAR     NOT NULL, "
             + "  PASSWORD     VARCHAR     NOT NULL, "
             + "  RECENT_LOGIN_DATE     TEXT     NOT NULL, "
-            + "  REG_DATE    TEXT     NOT NULL,  "
-            + "  LECTURE_LIST    INTEGER,  "
-            + "  FOREIGN KEY(LECTURE_LIST)  REFERENCES " + TABLE_LECTURE + "(LECTURE_ID))";
+            + "  REG_DATE    TEXT     NOT NULL  )";
+
+    final String CREATE_ENROLLMENT = "CREATE TABLE IF NOT EXISTS " + TABLE_ENROLLMENT + " ( " +
+            "    USER_ID INTEGER, " +
+            "    LECTURE_ID INTEGER, " +
+            "    PRIMARY KEY (USER_ID, LECTURE_ID), " +
+            "    FOREIGN KEY (USER_ID) REFERENCES " + TABLE_NAME + "(ID), " +
+            "    FOREIGN KEY (LECTURE_ID) REFERENCES "+ TABLE_LECTURE + "(LECTURE_ID))";
 
 //    final String DROP_SQL = "DROP TABLE IF EXISTS "+ TABLE_NAME ;
 
@@ -88,6 +95,11 @@ public class DDLService {
     public boolean createLecture() throws SQLException {
         // SQL 실행 및 반환
         return executeSQL(CREATE_LECTURE);
+    }
+
+    public boolean createEnrollment() throws SQLException {
+        // SQL 실행 및 반환
+        return executeSQL(CREATE_ENROLLMENT);
     }
 
 //    // 테이블 삭제 함수

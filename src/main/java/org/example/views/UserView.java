@@ -1,5 +1,6 @@
 package org.example.views;
 
+import org.example.controllers.EnrollmentController;
 import org.example.controllers.UserController;
 import org.example.database.DMLService;
 import org.example.database.DQLService;
@@ -16,10 +17,12 @@ import java.util.Scanner;
 public class UserView {
     private final Scanner in;
     private final UserController userController;
+    private final EnrollmentController enrollmentController;
 
-    public UserView(Scanner in, UserController userController) {
+    public UserView(Scanner in, UserController userController, EnrollmentController enrollmentController) {
         this.in = in;
         this.userController = userController;
+        this.enrollmentController = enrollmentController;
     }
 
     // 로그인
@@ -34,13 +37,13 @@ public class UserView {
         if (user != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             user.put("RECENT_LOGIN_DATE", LocalDateTime.now().format(formatter));
-            dml.updatePerson(user);
+            dml.updatePerson(user, false);
             System.out.println("로그인 성공!");
-            System.out.println("====================");
+            System.out.println("====================\n");
             return user;
         } else {
             System.out.println("로그인 실패. 이메일 또는 비밀번호를 확인해주세요.");
-            System.out.println("====================");
+            System.out.println("====================\n");
             return null;
         }
     }
@@ -88,10 +91,8 @@ public class UserView {
     }
 
     // 현재 로그인된 유저의 수강 정보 가져오기
-    public void getLectureList(UserModel user) {
-        System.out.println("======= 수강 목록 =======");
-        userController.getLectureList(user);
-        System.out.println("=======================");
+    public void getLectureList(DQLService dql, int id) {
+        enrollmentController.getLectureList(dql, id);
     }
 
     // 수강 취소

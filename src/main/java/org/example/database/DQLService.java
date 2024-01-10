@@ -10,6 +10,7 @@ public class DQLService {
     final String SELECTBYNAME_SQL = "SELECT * FROM USER WHERE EMAIL = ? AND PASSWORD = ?";
     final String SELECTBYID_LECTURE = "SELECT * FROM LECTURE WHERE LECTURE_ID = ?";
     final String SELECTBYNAME_LECTURE = "SELECT * FROM LECTURE WHERE LOWER(TITLE) LIKE LOWER(?) OR LOWER(LECTURER) LIKE LOWER(?)";
+    final String SELECTALL_ENROLLMENT = "SELECT * FROM LECTURE JOIN ENROLLMENT ON LECTURE.LECTURE_ID = ENROLLMENT.LECTURE_ID WHERE ENROLLMENT.USER_ID = ?";
 
     Connection conn;
     PreparedStatement pstmt;
@@ -83,6 +84,64 @@ public class DQLService {
         try {
             // PreparedStatement 객체 생성
             pstmt = conn.prepareStatement(SELECTALL_LECTURE);
+
+            // 데이터 조회
+            ResultSet rs = pstmt.executeQuery();
+
+            // 조회된 데이터의 컬럼명 저장
+            meta = pstmt.getMetaData();
+            for(int i=1; i<=meta.getColumnCount(); i++) {
+                columnNames.add(meta.getColumnName(i));
+            }
+
+            // ResultSet -> List<Map> 객체
+            Map<String, Object> resultMap = null;
+
+            while(rs.next()) {
+                resultMap = new HashMap<String, Object>();
+
+                for(String column : columnNames) {
+                    resultMap.put(column, rs.getObject(column));
+                }
+
+                if( resultMap != null ) {
+                    selected.add(resultMap);
+                }
+            }
+
+        } catch (SQLException e) {
+            // 오류처리
+            System.out.println(e.getMessage() + "\n");
+
+        } finally  {
+            try {
+                // PreparedStatement 종료
+                if( pstmt != null ) {
+                    pstmt.close();
+                }
+
+            } catch ( SQLException e ) {
+                e.printStackTrace();
+            }
+        }
+
+        // 결과 반환 - 조회된 데이터 리스트
+        return selected;
+    }
+
+    // 데이터 조회 함수
+    public List<Map<String, Object>> selectAllEnrollment(int id){
+
+        //   - 조회 결과 변수
+        final Set<String> columnNames = new HashSet<String>();
+        final List<Map<String, Object>> selected = new ArrayList<Map<String, Object>>();
+
+        try {
+            // PreparedStatement 객체 생성
+            pstmt = conn.prepareStatement(SELECTALL_ENROLLMENT);
+
+            // 조회 데이터 조건 매핑
+            pstmt.setObject(1, id);
 
             // 데이터 조회
             ResultSet rs = pstmt.executeQuery();
@@ -307,7 +366,7 @@ public class DQLService {
     public void printMapList(List<Map<String, Object>> mapList) {
 
         if(mapList.isEmpty()) {
-            System.out.println("조회된 데이터가 없습니다.");
+            System.out.println("조회된 데이터가 없습니다.\n");
             return;
         }
 
@@ -329,7 +388,7 @@ public class DQLService {
     public void printMapListLecture(List<Map<String, Object>> mapList) {
 
         if(mapList.isEmpty()) {
-            System.out.println("조회된 데이터가 없습니다.");
+            System.out.println("조회된 데이터가 없습니다.\n");
             return;
         }
 

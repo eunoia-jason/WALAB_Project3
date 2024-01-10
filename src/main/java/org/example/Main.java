@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.controllers.EnrollmentController;
 import org.example.controllers.LectureController;
 import org.example.controllers.UserController;
 import org.example.database.DDLService;
@@ -21,15 +22,17 @@ public class Main {
         Connection conn = SQLiteManager.getConnection();
         LectureController lectureController = new LectureController();
         UserController userController = new UserController();
-        LectureView lectureView = new LectureView(in, lectureController);
-        UserView userView = new UserView(in, userController);
+        EnrollmentController enrollmentController = new EnrollmentController();
+        LectureView lectureView = new LectureView(in, lectureController, enrollmentController);
+        UserView userView = new UserView(in, userController, enrollmentController);
 
         DDLService DDL = new DDLService(conn);
         DMLService DML = new DMLService(conn);
         DQLService DQL = new DQLService(conn);
 
-        DDL.createLecture();
         DDL.createTable();
+        DDL.createLecture();
+        DDL.createEnrollment();
 
         Map<String, Object> loggedInUser = null;
 
@@ -49,10 +52,10 @@ public class Main {
                         in.close();
                         return;
                     }
-                    default -> System.out.println("다시 입력해 주세요.");
+                    default -> System.out.println("다시 입력해 주세요.\n");
                 }
             } else {
-                if (loggedInUser.get("EMAIL").equals("admin")) {
+                if (loggedInUser.get("ID").equals("1")) {
                     System.out.println("[1]강의 추가 [2]강의 목록 [3]강의 검색 [4]강의 수정 [5]강의 삭제 [6]회원 목록 [7]로그아웃");
                     int choice = in.nextInt();
                     in.nextLine();
@@ -66,7 +69,7 @@ public class Main {
                         case 6 -> userView.listAllUsers(DQL);
                         case 7 -> {
                             loggedInUser = null;
-                            System.out.println("===== 로그아웃 되었습니다 =====");
+                            System.out.println("===== 로그아웃 되었습니다 =====\n");
                         }
                         default -> System.out.println("다시 입력해 주세요.");
                     }
@@ -76,15 +79,15 @@ public class Main {
                     in.nextLine();
 
                     switch (choice) {
-//                        case 1 -> lectureView.addLectureToUser(loggedInUser);
-//                        case 2 -> userView.getLectureList(loggedInUser);
+                        case 1 -> lectureView.addLectureToUser(DQL, DML, Integer.parseInt(loggedInUser.get("ID").toString()));
+                        case 2 -> userView.getLectureList(DQL, Integer.parseInt(loggedInUser.get("ID").toString()));
 //                        case 3 -> userView.searchLecture(loggedInUser);
 //                        case 4 -> userView.deleteLecture(loggedInUser);
                         case 5 -> System.out.println(loggedInUser);
 //                        case 6 -> userView.updateUserInfo(loggedInUser);
                         case 7 -> {
                             loggedInUser = null;
-                            System.out.println("===== 로그아웃 되었습니다 =====");
+                            System.out.println("===== 로그아웃 되었습니다 =====\n");
                         }
                         case 8 -> {
 //                            userView.removeUser(loggedInUser);

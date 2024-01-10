@@ -1,5 +1,6 @@
 package org.example.views;
 
+import org.example.controllers.EnrollmentController;
 import org.example.controllers.LectureController;
 import org.example.database.DMLService;
 import org.example.database.DQLService;
@@ -13,10 +14,12 @@ import java.util.Scanner;
 public class LectureView {
     private final Scanner in;
     private final LectureController lectureController;
+    private final EnrollmentController enrollmentController;
 
-    public LectureView(Scanner in, LectureController lectureController) {
+    public LectureView(Scanner in, LectureController lectureController, EnrollmentController enrollmentController) {
         this.in = in;
         this.lectureController = lectureController;
+        this.enrollmentController = enrollmentController;
     }
 
     // 강의 생성
@@ -72,23 +75,18 @@ public class LectureView {
     }
 
     // 현재 로그인된 유저 수강 신청
-    public void addLectureToUser(UserModel user) {
-        ArrayList<LectureModel> lectures = lectureController.listAllLectures();
-
-        System.out.println("======= 강의 목록 =======");
-        for (int i=0; i<lectures.size(); i++) {
-            System.out.println((i+1) + lectures.get(i).toString());
-        }
-        System.out.println("=======================\n");
+    public void addLectureToUser(DQLService dql, DMLService dml, int id) throws SQLException {
+        dql.printMapListLecture(dql.selectAllLecture());
+//        ArrayList<LectureModel> lectures = lectureController.listAllLectures();
+//
+//        System.out.println("======= 강의 목록 =======");
+//        for (int i=0; i<lectures.size(); i++) {
+//            System.out.println((i+1) + lectures.get(i).toString());
+//        }
+//        System.out.println("=======================\n");
         System.out.print("강의의 번호를 입력하세요: ");
         int input = in.nextInt();
-
-        try {
-            LectureModel selectedLecture = lectureController.listAllLectures().get(input - 1);
-
-            lectureController.addLectureToUser(user, selectedLecture);
-        } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
-            System.out.println("잘못된 입력입니다. 다시 시도해주세요.");
-        }
+//
+        enrollmentController.register(dml, id, input);
     }
 }
