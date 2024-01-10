@@ -1,5 +1,6 @@
 package org.example.views;
 
+import lombok.AllArgsConstructor;
 import org.example.controllers.EnrollmentController;
 import org.example.controllers.LectureController;
 import org.example.database.DMLService;
@@ -11,16 +12,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+@AllArgsConstructor
 public class LectureView {
     private final Scanner in;
     private final LectureController lectureController;
-    private final EnrollmentController enrollmentController;
-
-    public LectureView(Scanner in, LectureController lectureController, EnrollmentController enrollmentController) {
-        this.in = in;
-        this.lectureController = lectureController;
-        this.enrollmentController = enrollmentController;
-    }
 
     // 강의 생성
     public void createLecture(DMLService dml) throws SQLException {
@@ -87,6 +82,6 @@ public class LectureView {
         System.out.print("강의의 번호를 입력하세요: ");
         int input = in.nextInt();
 //
-        enrollmentController.register(dql, dml, id, input);
+        lectureController.addLectureToUser(dql, dml, id, input);
     }
 }

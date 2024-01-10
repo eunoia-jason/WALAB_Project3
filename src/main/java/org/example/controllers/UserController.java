@@ -1,10 +1,8 @@
 package org.example.controllers;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
 import org.example.database.DMLService;
 import org.example.database.DQLService;
-import org.example.models.LectureModel;
-import org.example.models.UserModel;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,18 +13,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Getter
+@AllArgsConstructor
 public class UserController {
-    private final List<UserModel> users = new ArrayList<>();
+    private final EnrollmentController enrollmentController;
 
     public void readData(DQLService dql) {
         List<Map<String, Object>> resultList = dql.selectAll();
         dql.printMapList(resultList);
-    }
-
-    // 이메일 중복 체크
-    public boolean isEmailExist(String email) {
-        return users.stream().anyMatch(user -> user.getEmail().equals(email));
     }
 
     // 회원가입
@@ -47,14 +40,20 @@ public class UserController {
     }
 
     // 유저 삭제
-    public void removeUser(UserModel user, String email, String password) {
-        user.getLectureList().forEach(lecture -> lecture.setCount(lecture.getCount()-1));
-        users.removeIf(item -> item.getEmail().equals(email) && item.getPassword().equals(password));
-    }
+    public void removeUser(DQLService dql, DMLService dml, int id, String email, String password) throws SQLException {
+//        user.getLectureList().forEach(lecture -> lecture.setCount(lecture.getCount()-1));
+//        users.removeIf(item -> item.getEmail().equals(email) && item.getPassword().equals(password));
+        Map<String, Object> user = dql.selectID(id);
 
-    // 유저 목록 조회
-    public void listAllUsers(DQLService dql) {
-        dql.printMapList(dql.selectAll());
+        if (user.get("EMAIL").equals(email) && user.get("PASSWORD").equals(password)) {
+            for (Map<String, Object> counter : dql.selectAllEnrollment(id)) {
+                enrollmentController.deleteEnrollment(dml, counter, id);
+            }
+            dml.deletePerson(id);
+        }
+        else {
+            System.out.println("입력이 올바르지 않습니다. 다시 확인하세요.\n");
+        }
     }
 
     // 유저 찾기
@@ -63,36 +62,32 @@ public class UserController {
     }
 
     // 유저 정보 수정
-    public void updateUser(UserModel user, String email, String password, String name) {
-        if (user != null) {
-            if (email != null && !email.isEmpty()) user.setEmail(email);
-            if (password != null && !password.isEmpty()) user.setPassword(password);
-            if (name != null && !name.isEmpty()) user.setName(name);
-        }
-    }
+    public void updateUser(DQLService dql, DMLService dml, int id, String email, String password, String name) throws SQLException {
+        Map<String, Object> dataMap = dql.selectID(id);
 
-    // 현재 로그인된 유저의 수강 정보 가져오기
-    public void getLectureList(UserModel user) {
-        for (int i=0; i<user.getLectureList().size(); i++) {
-            System.out.println((i+1) + user.getLectureList().get(i).toString());
-        }
-    }
+        if (!email.isEmpty()) dataMap.put("EMAIL", email);
+        if (!password.isEmpty()) dataMap.put("PASSWORD", password);
+        if (!name.isEmpty()) dataMap.put("NAME", name);
 
-    // 수강 취소
-    public void deleteLecture(UserModel user, int input) {
-        LectureController lectureController = new LectureController();
-
-        try {
-            lectureController.listAllLectures().get(input - 1).setCount(lectureController.listAllLectures().get(input - 1).getCount() - 1);
-            user.getLectureList().remove(input - 1);
-            System.out.println("수강이 취소되었습니다.");
-        } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
-            System.out.println("잘못된 입력입니다. 다시 시도해주세요.");
-        }
+        dml.updatePerson(dataMap, true);
     }
 
     // 수강 중인 강의 검색
-    public List<LectureModel> searchLectures(UserModel user, String keyword) {
-        return user.getLectureList().stream().filter(lecture -> lecture.getTitle().contains(keyword) || lecture.getLecturer().contains(keyword)).toList();
+    public void searchLectures(DQLService dql, int id, String keyword) {
+        dql.printMapListLecture(dql.selectByNameEnrollment(id, keyword));
+    }
+
+    public void userInfo(DQLService dql, int id) {
+        dql.printUserInfo(dql.selectID(id));
+    }
+
+    // 현재 로그인된 유저의 수강 정보 가져오기
+    public void getLectureList(DQLService dql, int id) {
+        enrollmentController.getLectureList(dql, id);
+    }
+
+    // 현재 로그인된 유저의 수강 정보 가져오기
+    public void deleteEnrollment(DQLService dql, DMLService dml, int id, int input) throws SQLException {
+        enrollmentController.deleteEnrollment(dql, dml, id, input);
     }
 }

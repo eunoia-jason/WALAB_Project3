@@ -20,10 +20,10 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         Scanner in = new Scanner(System.in);
         Connection conn = SQLiteManager.getConnection();
-        LectureController lectureController = new LectureController();
-        UserController userController = new UserController();
         EnrollmentController enrollmentController = new EnrollmentController();
-        LectureView lectureView = new LectureView(in, lectureController, enrollmentController);
+        LectureController lectureController = new LectureController(enrollmentController);
+        UserController userController = new UserController(enrollmentController);
+        LectureView lectureView = new LectureView(in, lectureController);
         UserView userView = new UserView(in, userController, enrollmentController);
 
         DDLService DDL = new DDLService(conn);
@@ -81,16 +81,16 @@ public class Main {
                     switch (choice) {
                         case 1 -> lectureView.addLectureToUser(DQL, DML, Integer.parseInt(loggedInUser.get("ID").toString()));
                         case 2 -> userView.getLectureList(DQL, Integer.parseInt(loggedInUser.get("ID").toString()));
-//                        case 3 -> userView.searchLecture(loggedInUser);
-//                        case 4 -> userView.deleteLecture(loggedInUser);
-                        case 5 -> System.out.println(loggedInUser);
-//                        case 6 -> userView.updateUserInfo(loggedInUser);
+                        case 3 -> userView.searchLecture(DQL, Integer.parseInt(loggedInUser.get("ID").toString()));
+                        case 4 -> userView.deleteEnrollment(DQL, DML, Integer.parseInt(loggedInUser.get("ID").toString()));
+                        case 5 -> userView.userInfo(DQL, Integer.parseInt(loggedInUser.get("ID").toString()));
+                        case 6 -> userView.updateUserInfo(DQL, DML, Integer.parseInt(loggedInUser.get("ID").toString()));
                         case 7 -> {
                             loggedInUser = null;
                             System.out.println("===== 로그아웃 되었습니다 =====\n");
                         }
                         case 8 -> {
-//                            userView.removeUser(loggedInUser);
+                            userView.removeUser(DQL, DML, Integer.parseInt(loggedInUser.get("ID").toString()));
                             loggedInUser = null;
                         }
                         default -> System.out.println("다시 입력해 주세요.");

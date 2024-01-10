@@ -1,5 +1,6 @@
 package org.example.views;
 
+import lombok.AllArgsConstructor;
 import org.example.controllers.EnrollmentController;
 import org.example.controllers.UserController;
 import org.example.database.DMLService;
@@ -14,16 +15,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+@AllArgsConstructor
 public class UserView {
     private final Scanner in;
     private final UserController userController;
     private final EnrollmentController enrollmentController;
-
-    public UserView(Scanner in, UserController userController, EnrollmentController enrollmentController) {
-        this.in = in;
-        this.userController = userController;
-        this.enrollmentController = enrollmentController;
-    }
 
     // 로그인
     public Map<String, Object> login(DQLService dql, DMLService dml) throws SQLException {
@@ -61,23 +57,23 @@ public class UserView {
     }
 
     // 회원 탈퇴
-    public void removeUser(UserModel user) {
+    public void removeUser(DQLService dql, DMLService dml, int id) throws SQLException {
         System.out.println("======= 회원 탈퇴 =======");
         System.out.print("이메일: ");
         String email = in.nextLine();
         System.out.print("비밀번호(입력 시 정보가 삭제됩니다.): ");
         String password = in.nextLine();
 
-        userController.removeUser(user, email, password);
+        userController.removeUser(dql, dml, id, email, password);
     }
 
     // 전체 유저 정보 로드
     public void listAllUsers(DQLService dql) {
-        userController.listAllUsers(dql);
+        userController.readData(dql);
     }
 
     // 회원 정보 수정
-    public void updateUserInfo(UserModel user) {
+    public void updateUserInfo(DQLService dql, DMLService dml, int id) throws SQLException {
         System.out.println("======= 정보 수정 =======");
         System.out.println("정보 수정을 위해 새로운 정보를 입력해주세요. 변경하지 않을 항목은 엔터를 눌러 넘어가세요.");
         System.out.print("새 이메일: ");
@@ -87,36 +83,32 @@ public class UserView {
         System.out.print("새 이름: ");
         String newName = in.nextLine();
 
-        userController.updateUser(user, newEmail, newPassword, newName);
+        userController.updateUser(dql, dml, id, newEmail, newPassword, newName);
     }
 
     // 현재 로그인된 유저의 수강 정보 가져오기
     public void getLectureList(DQLService dql, int id) {
-        enrollmentController.getLectureList(dql, id);
+        userController.getLectureList(dql, id);
     }
 
     // 수강 취소
-    public void deleteLecture(UserModel user) {
-        System.out.println("======= 수강 취소 =======");
-        userController.getLectureList(user);
-        System.out.println("=======================");
+    public void deleteEnrollment(DQLService dql, DMLService dml, int id) throws SQLException {
+        dql.printMapListLecture(dql.selectAllEnrollment(id));
         System.out.print("취소할 강의의 번호를 입력하세요: ");
         int input = in.nextInt();
 
-        userController.deleteLecture(user, input);
+        userController.deleteEnrollment(dql, dml, id, input);
     }
 
     // 수강 중인 강의 검색
-    public void searchLecture(UserModel user) {
+    public void searchLecture(DQLService dql, int id) {
         System.out.print("검색할 강의명 or 강사를 입력해 주세요: ");
         String keyword = in.nextLine();
 
-        List<LectureModel> lectures = userController.searchLectures(user, keyword);
+        userController.searchLectures(dql, id, keyword);
+    }
 
-        System.out.println("======= 수강 목록 =======");
-        for (int i=0; i<lectures.size(); i++) {
-            System.out.println((i+1) + lectures.get(i).toString());
-        }
-        System.out.println("=======================\n");
+    public void userInfo(DQLService dql, int id) {
+        userController.userInfo(dql, id);
     }
 }

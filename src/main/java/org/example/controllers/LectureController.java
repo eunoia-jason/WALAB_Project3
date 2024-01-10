@@ -1,34 +1,23 @@
 package org.example.controllers;
 
+import lombok.AllArgsConstructor;
 import org.example.database.DMLService;
 import org.example.database.DQLService;
-import org.example.models.LectureModel;
-import org.example.models.UserModel;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@AllArgsConstructor
 public class LectureController {
-    private final ArrayList<LectureModel> lectures = new ArrayList<>();
+    private final EnrollmentController enrollmentController;
 
     public void readData(DQLService dql) {
         List<Map<String, Object>> resultList = dql.selectAllLecture();
         dql.printMapListLecture(resultList);
-    }
-
-    // 강의명 중복 확인
-    public boolean isLectureExist(String title) {
-        return lectures.stream().anyMatch(lecture -> lecture.getTitle().equals(title));
-    }
-
-    // 번호 범위 확인
-    public boolean isIndexExist(int id) {
-        return 0 >= id || id > lectures.size();
     }
 
     // 입력받은 정보 강의 생성
@@ -45,11 +34,6 @@ public class LectureController {
         dataMap.put("REG_DATE" , regDate);
 
         dml.insertLecture(dataMap);
-    }
-
-    // 전체 강의 읽어오기
-    public ArrayList<LectureModel> listAllLectures() {
-        return new ArrayList<>(lectures);
     }
 
     // parameter들이 비어 있지 않을 때, 강의 정보 업데이트
@@ -74,14 +58,7 @@ public class LectureController {
         dql.printMapListLecture(resultList);
     }
 
-    // 유저 수강 신청
-    public void addLectureToUser(UserModel user, LectureModel lecture) {
-        if (user.getLectureList().stream().anyMatch(item -> item == lecture)) {
-            System.out.println("이미 수강신청된 강의입니다.");
-            return;
-        }
-        user.getLectureList().add(lecture);
-        lecture.setCount(lecture.getCount() + 1);
-        System.out.println("강의가 추가되었습니다.");
+    public void addLectureToUser(DQLService dql, DMLService dml, int id, int input) throws SQLException {
+        enrollmentController.register(dql, dml, id, input);
     }
 }

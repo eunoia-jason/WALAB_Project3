@@ -12,9 +12,9 @@ public class DMLService {
     final String INSERT_ENROLLMENT = "INSERT INTO ENROLLMENT ( USER_ID, LECTURE_ID) VALUES ( ?,? )";
     final String UPDATE_SQL = "UPDATE USER SET NAME = ?, EMAIL = ?, PASSWORD = ?, RECENT_LOGIN_DATE = ? WHERE ID = ?";
     final String UPDATE_LECTURE = "UPDATE LECTURE SET TITLE = ?, LECTURER = ?, CATEGORY = ?, COUNT = ? WHERE LECTURE_ID = ?";
-    final String UPDATE_COUNT = "UPDATE LECTURE SET COUNT = ? WHERE LECTURE_ID = ?";
-    final String DELETE_SQL = "DELETE FROM USER WHERE ID = ? ";
-    final String DELETE_LECTURE = "DELETE FROM LECTURE WHERE LECTURE_ID = ? ";
+    final String DELETE_SQL = "DELETE FROM USER WHERE ID = ?";
+    final String DELETE_LECTURE = "DELETE FROM LECTURE WHERE LECTURE_ID = ?";
+    final String DELETE_ENROLLMENT = "DELETE FROM ENROLLMENT WHERE USER_ID = ? AND LECTURE_ID = ?";
 
     Connection conn;
     PreparedStatement pstmt;
@@ -123,7 +123,7 @@ public class DMLService {
     }
 
     // 데이터 삽입 함수
-    public int insertEnrollment(HashMap<String, Object> dataMap) throws SQLException {
+    public int insertEnrollment(int id, int input, Map<String, Object> updateMap, boolean update) throws SQLException {
 
         int inserted = 0;
 
@@ -132,8 +132,8 @@ public class DMLService {
             pstmt = conn.prepareStatement(INSERT_ENROLLMENT);
 
             // 입력 데이터 매핑
-            pstmt.setObject(1, dataMap.get("USER_ID"));
-            pstmt.setObject(2, dataMap.get("LECTURE_ID"));
+            pstmt.setObject(1, id);
+            pstmt.setObject(2, input);
 
             // 쿼리 실행
             pstmt.executeUpdate();
@@ -143,6 +143,7 @@ public class DMLService {
 
             // 트랜잭션 COMMIT
             conn.commit();
+            updateLecture(updateMap, update);
             System.out.println("수강 신청 완료.");
             System.out.println("====================\n");
         } catch (SQLException e) {
@@ -339,6 +340,55 @@ public class DMLService {
             conn.commit();
             System.out.println("강의 삭제 완료.");
             System.out.println("====================\n");
+        } catch (SQLException e) {
+            // 오류처리
+            System.out.println(e.getMessage() + "\n");
+            // 오류
+            deleted = -1;
+            // 트랜잭션 ROLLBACK
+            conn.commit();
+        } finally  {
+            // PreparedStatement 종료
+            if( pstmt != null ) {
+                try {
+                    pstmt.close();
+                } catch ( SQLException e ) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // 결과 반환 - 삭제된 데이터 건수
+        return deleted;
+    }
+
+    // 데이터 삭제 함수
+    public int deleteEnrollment(int id, int input, Map<String, Object> updateMap, boolean update, boolean cancel) throws SQLException {
+
+        //   - 삭제 결과 변수
+        int deleted = 0;
+
+        try {
+            // PreparedStatement 객체 생성
+            pstmt = conn.prepareStatement(DELETE_ENROLLMENT);
+
+            // 조회 데이터 조건 매핑
+            pstmt.setObject(1, id);
+            pstmt.setObject(2, input);
+
+            // SQL 실행
+            pstmt.executeUpdate();
+
+            // 데이터 삭제 건수
+            deleted = pstmt.getUpdateCount();
+
+            // 트랜잭션 COMMIT
+            conn.commit();
+            updateLecture(updateMap, update);
+            if (cancel) {
+                System.out.println("수강 취소 완료.");
+                System.out.println("====================\n");
+            }
         } catch (SQLException e) {
             // 오류처리
             System.out.println(e.getMessage() + "\n");
