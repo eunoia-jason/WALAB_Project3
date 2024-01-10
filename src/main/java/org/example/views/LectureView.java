@@ -29,7 +29,6 @@ public class LectureView {
         System.out.print("카테고리: ");
         String category = in.nextLine();
         lectureController.createLecture(dml, title, lecturer, category);
-        System.out.println("======= 강의 등록 완료 =======\n");
     }
 
     // 전체 강의 읽어오기
@@ -52,7 +51,6 @@ public class LectureView {
         String newCategory = in.nextLine();
 
         lectureController.updateLecture(dql, dml, id, newTitle, newLecturer, newCategory);
-        System.out.println("======= 수정 완료 =======\n");
     }
 
     // 강의 삭제
@@ -63,7 +61,6 @@ public class LectureView {
         in.nextLine();
 
         lectureController.deleteLecture(dml, id);
-        System.out.println("======= 삭제 완료 =======\n");
     }
 
     // 강의명으로 검색

@@ -45,10 +45,11 @@ public class DMLService {
 
             // 트랜잭션 COMMIT
             conn.commit();
-
+            System.out.println("회원 가입 완료.");
+            System.out.println("====================\n");
         } catch (SQLException e) {
             // 오류출력
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "\n");
             // 오류
             inserted = -1;
             // 트랜잭션 ROLLBACK
@@ -93,10 +94,11 @@ public class DMLService {
 
             // 트랜잭션 COMMIT
             conn.commit();
-
+            System.out.println("강의 등록 완료.");
+            System.out.println("====================\n");
         } catch (SQLException e) {
             // 오류출력
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "\n");
             // 오류
             inserted = -1;
             // 트랜잭션 ROLLBACK
@@ -143,10 +145,11 @@ public class DMLService {
 
             // 트랜잭션 COMMIT
             conn.commit();
-
+            System.out.println("회원 정보 수정 완료.");
+            System.out.println("====================\n");
         } catch (SQLException e) {
             // 오류처리
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "\n");
             // 오류
             updated = -1;
             // 트랜잭션 ROLLBACK
@@ -191,10 +194,11 @@ public class DMLService {
 
             // 트랜잭션 COMMIT
             conn.commit();
-
+            System.out.println("강의 정보 수정 완료.");
+            System.out.println("====================\n");
         } catch (SQLException e) {
             // 오류처리
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "\n");
             // 오류
             updated = -1;
             // 트랜잭션 ROLLBACK
@@ -235,10 +239,11 @@ public class DMLService {
 
             // 트랜잭션 COMMIT
             conn.commit();
-
+            System.out.println("회원 탈퇴 완료.");
+            System.out.println("====================\n");
         } catch (SQLException e) {
             // 오류처리
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "\n");
             // 오류
             deleted = -1;
             // 트랜잭션 ROLLBACK
@@ -279,10 +284,11 @@ public class DMLService {
 
             // 트랜잭션 COMMIT
             conn.commit();
-
+            System.out.println("강의 삭제 완료.");
+            System.out.println("====================\n");
         } catch (SQLException e) {
             // 오류처리
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "\n");
             // 오류
             deleted = -1;
             // 트랜잭션 ROLLBACK

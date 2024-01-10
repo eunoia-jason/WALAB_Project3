@@ -55,8 +55,6 @@ public class UserView {
         System.out.print("이름: ");
         String name = in.nextLine();
         userController.createUser(dml, email, password, name);
-        System.out.println("회원가입 완료.");
-        System.out.println("====================");
     }
 
     // 회원 탈퇴
@@ -68,8 +66,6 @@ public class UserView {
         String password = in.nextLine();
 
         userController.removeUser(user, email, password);
-        System.out.println("탈퇴되었습니다.");
-        System.out.println("====================");
     }
 
     // 전체 유저 정보 로드
@@ -89,8 +85,6 @@ public class UserView {
         String newName = in.nextLine();
 
         userController.updateUser(user, newEmail, newPassword, newName);
-        System.out.println("정보가 수정되었습니다.");
-        System.out.println("====================");
     }
 
     // 현재 로그인된 유저의 수강 정보 가져오기

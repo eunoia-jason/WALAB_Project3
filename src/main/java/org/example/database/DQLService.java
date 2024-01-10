@@ -56,7 +56,7 @@ public class DQLService {
 
         } catch (SQLException e) {
             // 오류처리
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "\n");
 
         } finally  {
             try {
@@ -110,7 +110,7 @@ public class DQLService {
 
         } catch (SQLException e) {
             // 오류처리
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "\n");
 
         } finally  {
             try {
@@ -167,7 +167,7 @@ public class DQLService {
 
         } catch (SQLException e) {
             // 오류처리
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "\n");
 
         } finally  {
             try {
@@ -226,7 +226,7 @@ public class DQLService {
 
         } catch (SQLException e) {
             // 오류처리
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "\n");
 
         } finally  {
             try {
