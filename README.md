@@ -27,15 +27,28 @@
 - sqlite-jdbc: Java에서 SQLite 데이터베이스와 상호 작용하기 위한 JDBC 드라이버입니다.
 - slf4j-simple: Simple Logging Facade for Java (SLF4J) 프레임워크에서 제공하는 간단한 로깅 구현체입니다.
 
-### DB Table
+## DB 정보
+
+### TABLE
 - USER: 유저 정보를 저장하는 Table입니다.
-<img width="590" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/dec98eb7-cba5-4b25-8350-525027348614">
+  <img width="590" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/dec98eb7-cba5-4b25-8350-525027348614">
 
 - LECTURE: 강의 정보를 저장하는 Table입니다.
-<img width="574" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/e6d5936e-acd9-4900-96c4-5faf5431133b">
+  <img width="574" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/e6d5936e-acd9-4900-96c4-5faf5431133b">
 
 - ENROLLMENT: 유저가 여러 강의를 수강 신청하였음을 저장하고 있는 다대다 관계 Table입니다.
-<img width="512" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/8dbbcedc-d6a8-416f-a49b-7317975ed94f">
+  <img width="512" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/8dbbcedc-d6a8-416f-a49b-7317975ed94f">
+
+## DATA
+- USER
+  <img width="529" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/2340c846-1fb0-4235-8fe6-62050caf273b">
+
+- LECTURE
+  <img width="638" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/1515efc3-71e0-48f8-becf-502ee281a932">
+
+- ENROLLMENT
+  <img width="196" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/0e07b553-c96f-427a-a615-c400012cf243">
+
 
 ## 스크린샷
 <img width="894" alt="image" src="https://github.com/eunoia-jason/WALAB_Project3/assets/62330979/80a94c1d-f1b3-4148-82d2-f491b2028f74">
